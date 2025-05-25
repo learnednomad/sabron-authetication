@@ -12,6 +12,7 @@ import Config from "../config"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { useAppTheme, useThemeProvider } from "@/utils/useAppTheme"
 import { ComponentProps } from "react"
+import { useAuth } from "@/services/auth/useAuth"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -29,6 +30,10 @@ import { ComponentProps } from "react"
 export type AppStackParamList = {
   Welcome: undefined
   // 🔥 Your screens go here
+  SignIn: undefined
+  SignUp: undefined
+  ForgotPassword: undefined
+  EmailVerification: undefined
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
@@ -47,6 +52,8 @@ export type AppStackScreenProps<T extends keyof AppStackParamList> = NativeStack
 const Stack = createNativeStackNavigator<AppStackParamList>()
 
 const AppStack = observer(function AppStack() {
+  const { isAuthenticated } = useAuth()
+
   const {
     theme: { colors },
   } = useAppTheme()
@@ -61,9 +68,18 @@ const AppStack = observer(function AppStack() {
         },
       }}
     >
-      <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
-      {/** 🔥 Your screens go here */}
-      {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+      {isAuthenticated ? (
+        <>
+          <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
+        </>
+      ) : (
+        <>
+          <Stack.Screen name="SignIn" component={Screens.SignInScreen} />
+          <Stack.Screen name="SignUp" component={Screens.SignUpScreen} />
+          <Stack.Screen name="ForgotPassword" component={Screens.ForgotPasswordScreen} />
+          <Stack.Screen name="EmailVerification" component={Screens.EmailVerificationScreen} />
+        </>
+      )}
     </Stack.Navigator>
   )
 })
