@@ -4,7 +4,7 @@
  * Generally speaking, it will contain an auth flow (registration, login, forgot password)
  * and a "main" flow which the user will use once logged in.
  */
-import { NavigationContainer } from "@react-navigation/native"
+import { NavigationContainer, NavigatorScreenParams } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 import { observer } from "mobx-react-lite"
 import * as Screens from "@/screens"
@@ -13,6 +13,7 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { useAppTheme, useThemeProvider } from "@/utils/useAppTheme"
 import { ComponentProps } from "react"
 import { useAuth } from "@/services/auth/useAuth"
+import { TabNavigator, TabParamList } from "@/navigators/TabNavigator"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -29,11 +30,19 @@ import { useAuth } from "@/services/auth/useAuth"
  */
 export type AppStackParamList = {
   Welcome: undefined
+  Snackbar: NavigatorScreenParams<TabParamList>
+
   // 🔥 Your screens go here
   SignIn: undefined
   SignUp: undefined
   ForgotPassword: undefined
   EmailVerification: undefined
+  Home: undefined
+  Settings: undefined
+  Profile: undefined
+  Onboarding: undefined
+  Notification: undefined
+  Orders: undefined
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
@@ -70,7 +79,7 @@ const AppStack = observer(function AppStack() {
     >
       {isAuthenticated ? (
         <>
-          <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
+          <Stack.Screen name="Snackbar" component={TabNavigator} />
         </>
       ) : (
         <>

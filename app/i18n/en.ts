@@ -4,6 +4,12 @@ const en = {
     cancel: "Cancel",
     back: "Back",
   },
+  travel: {
+    morning: "Morning,",
+    evening: "Evening,",
+    afternoon: "Afternoon,",
+    welcome: "Where to next?",
+  },
   welcomeScreen: {
     postscript:
       "psst  — This probably isn't what your app looks like. (Unless your designer handed you these screens, and in that case, ship it!)",

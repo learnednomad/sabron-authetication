@@ -14,9 +14,7 @@
     },
     "newArchEnabled": true,
     "jsEngine": "hermes",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "android": {
       "icon": "./assets/images/app-icon-android-legacy.png",
       "package": "com.sabronauthentication",
@@ -24,16 +22,25 @@
         "foregroundImage": "./assets/images/app-icon-android-adaptive-foreground.png",
         "backgroundImage": "./assets/images/app-icon-android-adaptive-background.png"
       },
-      "allowBackup": false
+      "allowBackup": false,
+      "splash": {
+        "backgroundColor": "#FF0000"
+      }
     },
     "ios": {
       "icon": "./assets/images/app-icon-ios.png",
       "supportsTablet": true,
-      "bundleIdentifier": "com.sabronauthentication"
+      "bundleIdentifier": "com.sabronauthentication",
+      "splash": {
+        "backgroundColor": "#FF0000"
+      }
     },
     "web": {
       "favicon": "./assets/images/app-icon-web-favicon.png",
-      "bundler": "metro"
+      "bundler": "metro",
+      "splash": {
+        "backgroundColor": "#FF0000"
+      }
     },
     "plugins": [
       "expo-localization",
@@ -51,6 +58,9 @@
     ],
     "experiments": {
       "tsconfigPaths": true
+    },
+    "splash": {
+      "backgroundColor": "#FF0000"
     }
   },
   "ignite": {

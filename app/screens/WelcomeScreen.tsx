@@ -8,7 +8,7 @@ import { $styles, type ThemedStyle } from "@/theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
 import { useAppTheme } from "@/utils/useAppTheme"
 
-const welcomeLogo = require("../../assets/images/logo.png")
+const welcomeLogo = require("assets/images/old/logo.png")
 const welcomeFace = require("../../assets/images/welcome-face.png")
 
 interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> {}
