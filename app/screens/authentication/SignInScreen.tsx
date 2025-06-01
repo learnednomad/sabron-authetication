@@ -9,6 +9,7 @@ import { useAuth } from "@/services/auth/useAuth"
 import { useNavigation } from "@react-navigation/native"
 import { supabase } from "@/services/auth/supabase"
 import { storage } from "@/utils/storage"
+import * as AppleAuthentication from "expo-apple-authentication"
 const logo = require("../../../assets/images/smbc_logo.png")
 
 interface SignInScreenProps extends AppStackScreenProps<"SignIn"> {}
@@ -114,6 +115,44 @@ export const SignInScreen: FC<SignInScreenProps> = observer(function SignInScree
               <Text preset="bold">Forgot Password?</Text>
             </Pressable>
             <Text style={$buttonDivider}>- or -</Text>
+            <AppleAuthentication.AppleAuthenticationButton
+              buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+              buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+              cornerRadius={5}
+              style={$appleButton}
+              onPress={async () => {
+                try {
+                  const credential = await AppleAuthentication.signInAsync({
+                    requestedScopes: [
+                      AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                      AppleAuthentication.AppleAuthenticationScope.EMAIL,
+                    ],
+                  })
+
+                  if (credential.identityToken) {
+                    const { error, data } = await supabase.auth.signInWithIdToken({
+                      provider: "apple",
+                      token: credential.identityToken,
+                    })
+
+                    if (error) {
+                      console.error("Supabase Auth Error:", error.message)
+                      return
+                    }
+
+                    console.log("User signed in:", data.user)
+                  } else {
+                    console.error("No identity token received")
+                  }
+                } catch (e) {
+                  if (e.code === "ERR_REQUEST_CANCELED") {
+                    console.log("User canceled the sign-in flow")
+                  } else {
+                    console.error("Apple Sign-In Error:", e)
+                  }
+                }
+              }}
+            />
             <Button preset="reversed" onPress={onSignUp} disabled={isLoading}>
               {isSigningUp ? "Signing Up..." : "Sign Up"}
             </Button>
@@ -187,4 +226,10 @@ const $errorMessage: TextStyle = {
   color: colors.error,
   textAlign: "center",
   marginTop: spacing.sm,
+}
+
+const $appleButton: ViewStyle = {
+  width: 200,
+  height: 44,
+  marginBottom: spacing.md,
 }
